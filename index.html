@@ -1,0 +1,1802 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="MovingColor: Seamless Fusion of Fine-grained Video Color Editing">
+  <meta name="keywords" content="MovingColor">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MovingColor</title>
+
+  <style>
+    .hr {width: 100%; height: 1px; margin: 48px 0; background-color: #d6dbdf;}
+    #sttBtn {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 30px;
+      z-index: 99;
+      /* font-size: 18px; */
+      /* border: none; */
+      /* outline: none; */
+      /* background-color: red; */
+      /* color: white; */
+      cursor: pointer;
+      /* padding: 15px; */
+      /* border-radius: 4px; */
+    }
+
+    #sttBtn:hover {
+      background-color: #555;
+    }
+
+    /* .highlight {
+      position: absolute;
+      border: 5px solid red;
+    } */
+  </style>
+  
+  <style>
+    #a .columns {
+      margin-left: .75rem;
+      margin-right: .75rem;
+      margin-top: .75rem;
+    }
+  </style>
+
+  <!-- <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet"> -->
+  <link href="./assets/css/fonts.css" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/bulma.min.css">
+  <link rel="stylesheet" href="./assets/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./assets/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./assets/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="./assets/css/index.css">
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"> -->
+  <link rel="stylesheet" href="./assets/css/academicons.min.css">
+
+  <!-- custom css file  -->
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/twentytwenty.css">
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+  <script src="./assets/js/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+<button onclick="topFunction()" id="sttBtn" title="Go to top" class="button is-success is-rounded">Top</button>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop head">
+      <div class="columns is-centered">
+        <div class="column has-text-centered head">
+
+          <h1 class="title is-3 publication-title"> 
+            MovingColor: Seamless Fusion of Fine-grained Video Color Editing 
+          </h1>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">ACM MM 2024 | Submission No. 279
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <img src="./assets/Teaser.svg" alt="Teaser image">
+      </div>
+    </div>
+  </div>
+</section> 
+
+<section class="teaser">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <div class="content has-text-justified">
+          <ul>
+            <a href="#aa"><b>Main Supplementary Video</b></a>
+          </ul>
+          <ol style="list-style-type:upper-alpha">
+            <br>
+            <li> <a href="#a"><b>MovingColor</b></a><ul><li><a href="#a1">A1. Direct Composition (DC) vs MovingColor</a> </li><li><a href="#a2">A2. Final Results</a></li><li><a href="#a3">A3. Coarse Masks and the Auto-Extracted Edge of Masks</a></li></ul> </li>
+            <li> <a href="#b"><b>Comparison with Edge Refinement Methods</b></a><ul><li><a href="#b1">B1. DC (SegRefiner) vs MovingColor</a></li><li><a href="#b2">B2. DC (VMT) vs MovingColor</a></li></ul></li>
+            <li> <a href="#c"><b>Comparison with RSFNet</b></a></li>
+            <li> <a href="#d"><b>Comparison with Color Matcher (CM)</b></a></li>
+            <li> <a href="#e"><b>Comparison with Harmonizer</b></a></li>
+            <li> <a href="#f"><b>Comparison with S2CRNet</b></a></li>
+            <li> <a href="#g"><b>Comparison with PCTNet</b></a></li>
+            <li> <a href="#h"><b>Comparison with StyA2K</b></a></li>
+            <li> <a href="#i"><b>Comparison with Deflicker</b></a></li>
+            <li> <a href="#j"><b>Comparison with StyA2K+Deflicker</b></a></li>
+            <li> <a href="#k"><b>Comparison with Few-Shot Patch-Based Training (FSPBT)</b></a></li>
+          </ol>
+        </div>
+        <div class="content has-text-justified">
+          <b>If there are issues playing the videos on this website, please hard refresh the browser. You may reopen the browser if necessary.</b>
+        </div>
+        <div class="hr"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light is-small" id="aa">
+  <div class="hero-body">
+    <div class="container">
+    <h3 class="title">Main Supplementary Video</h3>
+      <div class="item">
+        <div class="video">
+          <video muted controls autoplay="autoplay" loop="loop" width="100%">
+            <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/MovingColor_crf20.mp4" type="video/mp4">
+          </video> 
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="a">
+  <div class="container is-max-desktop content">
+    <h2 class="title">A. MovingColor</h2>
+    
+    <section class="hero is-light is-small">
+      <div class="hero-body" style="position: relative">
+        <div class="container" id="a1">
+          <div id="results-carousel" class="results-carousel">
+            <h3 class="title">A1. Direct Composition (DC) vs MovingColor</h3>
+            <div class="content has-text-justified">
+              Comparing our method with Direct Composition (DC) using coarse masks. The DC results are produced with the intermediate masks from Section A3. 
+            </div>
+
+            <div class="container">
+              <div class="hr"></div>
+              <div class="columns is-mobile is-5">
+                <div class="column">
+                  <div class="content has-text-justified">Highlight: the border of the girl's hair.</div>
+                </div>
+                <div class="column is-one-quarter">
+                  <!-- <div class="field">
+                    <input id="switchColorInfo" type="checkbox" name="switchColorInfo" class="switch is-info" checked="checked">
+                    <label for="switchColorInfo">Switch Highlight</label>
+                  </div> -->
+                  <button id="highlightBtn0" title="Toggle highlight" class="button is-link is-light is-focused is-pulled-right">Toggle Highlight</button>
+                </div>
+              </div>
+                            
+              <div class="item">
+                <div class="twentytwenty-container direct-composition" data-orientation="horizontal" ratio="1.778">
+                  <div class="desc">DC vs MovingColor</div>
+                  <div class="video">
+                    <video muted autoplay="autoplay" loop="loop" width="100%" class="hv00" style="display: none;">
+                      <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/direct_compose/Beauty_Close_Up.mp4" type="video/mp4">
+                    </video>
+                    <video muted autoplay="autoplay" loop="loop" width="100%" class="hv01">
+                      <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/direct_compose/Beauty_Close_Up_highlight.mp4" type="video/mp4">
+                    </video> 
+                  </div>
+                  <div class="video">
+                    <video muted autoplay="autoplay" loop="loop" width="100%" class="hv00" style="display: none;">
+                      <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Beauty_Close_Up.mp4" type="video/mp4">
+                    </video>
+                    <video muted autoplay="autoplay" loop="loop" width="100%" class="hv01">
+                      <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Beauty_Close_Up_highlight.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="container">
+              <div class="hr"></div>
+              <div class="columns is-mobile">
+                <div class="column">
+                  <div class="content has-text-justified">Highlight: the horizon.</div>
+                </div>
+                <div class="column is-one-quarter">
+                  <button id="highlightBtn1" title="Toggle highlight" class="button is-link is-light is-focused is-pulled-right">Toggle Highlight</button>
+                </div>
+              </div>
+              <div class="item">
+                <div class="twentytwenty-container direct-composition" data-orientation="horizontal" ratio="0.556">
+                  <div class="desc">DC vs MovingColor</div>
+                  <div class="video">
+                    <video muted autoplay="autoplay" loop="loop" width="100%" class="hv10" style="display: none;">
+                      <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/direct_compose/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                    </video>
+                    <video muted autoplay="autoplay" loop="loop" width="100%" class="hv11">
+                      <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/direct_compose/Blue_Sky_Golden_Wheat_highlight.mp4" type="video/mp4">
+                    </video> 
+                  </div>
+                  <div class="video">
+                    <video muted autoplay="autoplay" loop="loop" width="100%" class="hv10" style="display: none;">
+                      <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                    </video>
+                    <video muted autoplay="autoplay" loop="loop" width="100%" class="hv11">
+                      <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Blue_Sky_Golden_Wheat_highlight.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="container">
+              <div class="hr"></div>
+              <div class="columns is-mobile">
+                <div class="column">
+                  <div class="content has-text-justified">Highlight: the dog hair.</div>
+                </div>
+                <div class="column is-one-quarter">
+                  <button id="highlightBtn2" title="Toggle highlight" class="button is-link is-light is-focused is-pulled-right">Toggle Highlight</button>
+                </div>
+              </div>
+              <div class="container">
+                <div class="item">
+                  <div class="twentytwenty-container direct-composition" data-orientation="horizontal" ratio="1.152">
+                    <div class="desc">DC vs MovingColor</div>
+                    <div class="video">
+                      <video muted autoplay="autoplay" loop="loop" width="100%" class="hv20" style="display: none;">
+                        <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/direct_compose/Caigou4.mp4" type="video/mp4">
+                      </video>
+                      <video muted autoplay="autoplay" loop="loop" width="100%" class="hv21">
+                        <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/direct_compose/Caigou4_highlight.mp4" type="video/mp4">
+                      </video> 
+                    </div>
+                    <div class="video">
+                      <video muted autoplay="autoplay" loop="loop" width="100%" class="hv20" style="display: none;">
+                        <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Caigou4.mp4" type="video/mp4">
+                      </video>
+                      <video muted autoplay="autoplay" loop="loop" width="100%" class="hv21">
+                        <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Caigou4_highlight.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+              
+
+            <div class="container">
+              <div class="hr"></div>
+              <div class="columns is-mobile">
+                <div class="column">
+                  <div class="content has-text-justified">Highlight: the flowers near the arms.</div>
+                </div>
+                <div class="column is-one-quarter">
+                  <button id="highlightBtn3" title="Toggle highlight" class="button is-link is-light is-focused is-pulled-right">Toggle Highlight</button>
+                </div>
+              </div>
+              <div class="item">
+                <div class="twentytwenty-container direct-composition" data-orientation="horizontal" ratio="1.778">
+                  <div class="desc">DC vs MovingColor</div>
+                  <div class="video">
+                    <video muted autoplay="autoplay" loop="loop" width="100%" class="hv30" style="display: none;">
+                      <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/direct_compose/Flower_Beauty.mp4" type="video/mp4">
+                    </video>
+                    <video muted autoplay="autoplay" loop="loop" width="100%" class="hv31">
+                      <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/direct_compose/Flower_Beauty_highlight.mp4" type="video/mp4">
+                    </video> 
+                  </div>
+                  <div class="video">
+                    <video muted autoplay="autoplay" loop="loop" width="100%" class="hv30" style="display: none;">
+                      <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Flower_Beauty.mp4" type="video/mp4">
+                    </video>
+                    <video muted autoplay="autoplay" loop="loop" width="100%" class="hv31">
+                      <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Flower_Beauty_highlight.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="container">
+              <div class="hr"></div>
+              <div class="columns is-mobile">
+                <div class="column">
+                  <div class="content has-text-justified">Highlight: the grass under the trees.</div>
+                </div>
+                <div class="column is-one-quarter">
+                  <button id="highlightBtn4" title="Toggle highlight" class="button is-link is-light is-focused is-pulled-right">Toggle Highlight</button>
+                </div>
+              </div>
+                
+              <div class="item">
+                <div class="twentytwenty-container direct-composition" data-orientation="horizontal" ratio="0.556">
+                  <div class="desc">DC vs MovingColor</div>
+                  <div class="video">
+                    <video muted autoplay="autoplay" loop="loop" width="100%" class="hv40" style="display: none;">
+                      <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/direct_compose/Sky_Tree_Grass.mp4" type="video/mp4">
+                    </video>
+                    <video muted autoplay="autoplay" loop="loop" width="100%" class="hv41">
+                      <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/direct_compose/Sky_Tree_Grass_highlight.mp4" type="video/mp4">
+                    </video> 
+                  </div>
+                  <div class="video">
+                    <video muted autoplay="autoplay" loop="loop" width="100%" class="hv40" style="display: none;">
+                      <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Sky_Tree_Grass.mp4" type="video/mp4">
+                    </video>
+                    <video muted autoplay="autoplay" loop="loop" width="100%" class="hv41">
+                      <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Sky_Tree_Grass_highlight.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="container" id="a2">
+          <div id="results-carousel" class="results-carousel">
+            
+            <h3 class="title">A2. Final Results</h3>
+            <div class="content has-text-justified">
+              
+            </div>
+
+
+            <div class="item">
+              <div class="twentytwenty-container output" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/input/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="twentytwenty-container output" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/input/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="twentytwenty-container output" data-orientation="horizontal" ratio="1.152">
+                <div class="desc">MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/input/Caigou4.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Caigou4.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="twentytwenty-container output" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/input/Flower_Beauty.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Flower_Beauty.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+                
+            <div class="item">
+              <div class="twentytwenty-container output" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/input/Sky_Tree_Grass.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Sky_Tree_Grass.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="hr"></div>
+        
+        <div class="container" id="a3">
+          <div id="results-carousel" class="results-carousel">
+            <h3 class="title">A3. Coarse Masks and the Auto-Extracted Edge of Masks</h3>
+            <div class="content has-text-justified">
+              Including the coarse masks and the edge of masks.
+            </div>
+            <div class="item">
+              <div class="twentytwenty-container mask" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">MovingColor-Mask</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/input/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/mask/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="twentytwenty-container edge" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">MovingColor-Edge</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/input/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/edge/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container mask" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">MovingColor-Mask</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/input/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/mask/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="twentytwenty-container edge" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">MovingColor-Edge</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/input/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/edge/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container mask" data-orientation="horizontal" ratio="1.152">
+                <div class="desc">MovingColor-Mask</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/input/Caigou4.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/mask/Caigou4.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="twentytwenty-container edge" data-orientation="horizontal" ratio="1.152">
+                <div class="desc">MovingColor-Edge</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/input/Caigou4.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/edge/Caigou4.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container mask" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">MovingColor-Mask</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/input/Flower_Beauty.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/mask/Flower_Beauty.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="twentytwenty-container edge" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">MovingColor-Edge</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/input/Flower_Beauty.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/edge/Flower_Beauty.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+                
+            <div class="item">
+              <div class="twentytwenty-container mask" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">MovingColor-Mask</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/input/Sky_Tree_Grass.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/mask/Sky_Tree_Grass.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="twentytwenty-container edge" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">MovingColor-Edge</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/input/Sky_Tree_Grass.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/edge/Sky_Tree_Grass.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  
+  </div>
+</section>
+
+
+<section class="section" id="b">
+  <div class="container is-max-desktop content">
+    <h2 class="title">B. Comparison with Edge Refinement Methods</h2>
+    <section class="hero is-light is-small">
+      <div class="hero-body">
+        
+        <div class="container is-max-desktop">
+          <div class="content has-text-justified">
+            In this Section, refined segmentation masks are used to achieve seamless color fusion. To obtain the refined masks, we use the official repositories of two methods: <a href="https://github.com/MengyuWang826/SegRefiner">SegRefiner</a> and <a href="https://github.com/SysCV/vmt">Video Mask Transfiner (VMT)</a>. We have listed the detailed runtime parameters below.
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="container" id="b1">
+          <div id="results-carousel" class="results-carousel">
+            <h3 class="title">B1. DC (SegRefiner) vs MovingColor</h3>
+            <div class="content has-text-justified">
+              <pre><code></code>Parameters:
+tools/test.py configs/segrefiner/segrefiner_dis.py checkpoints/segrefiner_hr_latest.pth</code></pre>
+            </div>
+
+            <div class="item">
+              <div class="twentytwenty-container segrefiner" data-orientation="horizontal" ratio="1.152">
+                <div class="desc">MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/segrefiner/Caigou4.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Caigou4.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="container" id="b2">
+          <div id="results-carousel" class="results-carousel">
+            <h3 class="title">B2. DC (VMT) vs MovingColor</h3>
+            <div class="content has-text-justified">
+              <pre><code>Parameters:
+-m tools.inference_with_vis  --masks --backbone resnet50 --model_path ./pretrained_model/checkpoint_r50_final.pth</code></pre>
+            </div>
+
+            <div class="item">
+              <div class="twentytwenty-container vmt" data-orientation="horizontal" ratio="1.152">
+                <div class="desc">MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/vmt/Caigou4.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/vmt/Caigou4_output_vmt.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</section>
+
+
+<section class="section" id="c">
+  <div class="container is-max-desktop content">
+    <h2 class="title">C. Comparison with RSFNet</h2>
+
+    <section class="hero is-light is-small">
+      <div class="hero-body">
+        
+        <div class="container is-max-desktop">
+          <div class="content has-text-justified">
+            We utilize the official <a href="https://github.com/Vicky0522/RSFNet">RSFNet</a> code for video processing, employing the RSFNet-map trained on MIT-Adobe FiveK. The videos are segmented into clips, ensuring filter arguments for subsequent frames align with those of the initial frame within each clip.
+          </div>
+          <div class="hr"></div>
+        </div>
+
+        <div class="container">
+          <div id="results-carousel" class="results-carousel">
+            
+            <div class="item">
+              <div class="twentytwenty-container rsfnet" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">RSFNet vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/rsfnet/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container rsfnet" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">RSFNet vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/rsfnet/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <!-- <div class="item">
+              <div class="twentytwenty-container rsfnet" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">RSFNet vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/rsfnet/Caigou4.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Caigou4.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div> -->
+            
+            <div class="item">
+              <div class="twentytwenty-container rsfnet" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">RSFNet vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/rsfnet/Flower_Beauty.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Flower_Beauty.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+                
+            <!-- <div class="item">
+              <div class="twentytwenty-container rsfnet" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">RSFNet vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/rsfnet/Woman_Close_Up.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Woman_Close_Up.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div> -->
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</section>
+
+
+<section class="section" id="d">
+  <div class="container is-max-desktop content">
+    <h2 class="title">D. Comparison with Color Matcher (CM)</h2>
+    <section class="hero is-light is-small">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="content has-text-justified">
+            
+          </div>
+          <!-- <div class="hr"></div> -->
+        </div>
+        <div class="container">
+          <div id="results-carousel" class="results-carousel">
+            
+            <div class="item">
+              <div class="twentytwenty-container cm" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">CM vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/cm/supp/high_brightness/output/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container cm" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">CM vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/cm/supp/high_brightness/output/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container cm" data-orientation="horizontal" ratio="1.152">
+                <div class="desc">CM vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/cm/supp/high_brightness/output/Caigou4.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Caigou4.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container cm" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">CM vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/cm/supp/high_brightness/output/Flower_Beauty.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Flower_Beauty.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+                
+            <!-- <div class="item">
+              <div class="twentytwenty-container cm" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">CM vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/cm/supp/high_brightness/output/Woman_Close_Up.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Woman_Close_Up.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div> -->
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+
+
+<section class="section" id="e">
+  <div class="container is-max-desktop content">
+    <h2 class="title">E. Comparison with Harmonizer</h2>
+    <!-- <div data-include="harmonizer"></div> -->
+    <section class="hero is-light is-small">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="content has-text-justified">
+            
+          </div>
+          <!-- <div class="hr"></div> -->
+        </div>
+        <div class="container">
+          <div id="results-carousel" class="results-carousel">
+            
+            <div class="item">
+              <div class="twentytwenty-container harmonizer" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">Harmonizer vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/harmonizer/supp/high_brightness/output/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container harmonizer" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">Harmonizer vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/harmonizer/supp/high_brightness/output/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container harmonizer" data-orientation="horizontal" ratio="1.152">
+                <div class="desc">Harmonizer vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/harmonizer/supp/high_brightness/output/Caigou4.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Caigou4.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container harmonizer" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">Harmonizer vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/harmonizer/supp/high_brightness/output/Flower_Beauty.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Flower_Beauty.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+                
+            <!-- <div class="item">
+              <div class="twentytwenty-container harmonizer" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">Harmonizer vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/harmonizer/supp/high_brightness/output/Woman_Close_Up.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Woman_Close_Up.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div> -->
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+  </div>
+</section>
+
+
+<section class="section" id="f">
+  <div class="container is-max-desktop content">
+    <h2 class="title">F. Comparison with S2CRNet</h2>
+    <!-- <div data-include="S2CRNet"></div> -->
+    <section class="hero is-light is-small">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="content has-text-justified"></div>
+          <!-- <div class="hr"></div> -->
+        </div>
+        <div class="container">
+          <div id="results-carousel" class="results-carousel">
+            
+            <div class="item">
+              <div class="twentytwenty-container S2CRNet" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">S2CRNet vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/s2crnet/supp/high_brightness/output/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container S2CRNet" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">S2CRNet vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/s2crnet/supp/high_brightness/output/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container S2CRNet" data-orientation="horizontal" ratio="1.152">
+                <div class="desc">S2CRNet vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/s2crnet/supp/high_brightness/output/Caigou4.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Caigou4.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container S2CRNet" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">S2CRNet vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/s2crnet/supp/high_brightness/output/Flower_Beauty.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Flower_Beauty.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+                
+            <!-- <div class="item">
+              <div class="twentytwenty-container S2CRNet" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">S2CRNet vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/s2crnet/supp/high_brightness/output/Woman_Close_Up.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Woman_Close_Up.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div> -->
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+
+
+<section class="section" id="g">
+  <div class="container is-max-desktop content">
+    <h2 class="title">G. Comparison with PCTNet</h2>
+    <!-- <div data-include="pctnet"></div> -->
+    <section class="hero is-light is-small">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="content has-text-justified"></div>
+          <!-- <div class="hr"></div> -->
+        </div>
+        <div class="container">
+          <div id="results-carousel" class="results-carousel">
+            
+            <div class="item">
+              <div class="twentytwenty-container pctnet" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">PCTNet vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/pctnet/supp/high_brightness/output/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container pctnet" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">PCTNet vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/pctnet/supp/high_brightness/output/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container pctnet" data-orientation="horizontal" ratio="1.152">
+                <div class="desc">PCTNet vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/pctnet/supp/high_brightness/output/Caigou4.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Caigou4.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container pctnet" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">PCTNet vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/pctnet/supp/high_brightness/output/Flower_Beauty.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Flower_Beauty.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+                
+            <!-- <div class="item">
+              <div class="twentytwenty-container pctnet" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">PCTNet vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/pctnet/supp/high_brightness/output/Woman_Close_Up.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Woman_Close_Up.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div> -->
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+
+
+<section class="section" id="h">
+  <div class="container is-max-desktop content">
+    <h2 class="title">H. Comparison with StyA2K</h2>
+    <!-- <div data-include="styleA2k"></div> -->
+    <section class="hero is-light is-small">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="content has-text-justified"></div>
+          <!-- <div class="hr"></div> -->
+        </div>
+        <div class="container">
+          <div id="results-carousel" class="results-carousel">
+            
+            <div class="item">
+              <div class="twentytwenty-container styleA2k" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">StyA2K vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/styleA2k/supp/high_brightness/output/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container styleA2k" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">StyA2K vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/styleA2k/supp/high_brightness/output/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container styleA2k" data-orientation="horizontal" ratio="1.152">
+                <div class="desc">StyA2K vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/styleA2k/supp/high_brightness/output/Caigou4.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Caigou4.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container styleA2k" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">StyA2K vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/styleA2k/supp/high_brightness/output/Flower_Beauty.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Flower_Beauty.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+                
+            <!-- <div class="item">
+              <div class="twentytwenty-container styleA2k" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">StyA2K vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/styleA2k/supp/high_brightness/output/Woman_Close_Up.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Woman_Close_Up.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div> -->
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+
+
+<section class="section" id="i">
+  <div class="container is-max-desktop content">
+    <h2 class="title">I. Comparison with Deflicker</h2>
+    <!-- <div data-include="deflicker"></div> -->
+    <section class="hero is-light is-small">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="content has-text-justified"></div>
+          <!-- <div class="hr"></div> -->
+        </div>
+        <div class="container">
+          <div id="results-carousel" class="results-carousel">
+            
+            <div class="item">
+              <div class="twentytwenty-container deflicker" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">Deflicker vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/deflicker/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container deflicker" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">Deflicker vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/deflicker/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container deflicker" data-orientation="horizontal" ratio="1.152">
+                <div class="desc">Deflicker vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/deflicker/Caigou4.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Caigou4.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container deflicker" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">Deflicker vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/deflicker/Flower_Beauty.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Flower_Beauty.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+                
+            <!-- <div class="item">
+              <div class="twentytwenty-container deflicker" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">Deflicker vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/deflicker/Woman_Close_Up.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Woman_Close_Up.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div> -->
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+
+
+<section class="section" id="j">
+  <div class="container is-max-desktop content">
+    <h2 class="title">J. Comparison with StyA2K+Deflicker</h2>
+    <!-- <div data-include="styleA2k_deflicker"></div> -->
+    <section class="hero is-light is-small">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="content has-text-justified"></div>
+          <!-- <div class="hr"></div> -->
+        </div>
+        <div class="container">
+          <div id="results-carousel" class="results-carousel">
+            
+            <div class="item">
+              <div class="twentytwenty-container styleA2k_deflicker" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">StyA2K+Deflicker vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/styleA2k_deflicker/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container styleA2k_deflicker" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">StyA2K+Deflicker vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/styleA2k_deflicker/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container styleA2k_deflicker" data-orientation="horizontal" ratio="1.152">
+                <div class="desc">StyA2K+Deflicker vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/styleA2k_deflicker/Caigou4.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Caigou4.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container styleA2k_deflicker" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">StyA2K+Deflicker vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/styleA2k_deflicker/Flower_Beauty.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Flower_Beauty.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+                
+            <!-- <div class="item">
+              <div class="twentytwenty-container styleA2k_deflicker" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">StyA2K+Deflicker vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/styleA2k_deflicker/Woman_Close_Up.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Woman_Close_Up.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div> -->
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+
+
+<section class="section" id="k">
+  <div class="container is-max-desktop content">
+    <h2 class="title">K. Comparison with Few-Shot Patch-Based Training (FSPBT)</h2>
+    <!-- <div data-include="fspbt"></div> -->
+    <section class="hero is-light is-small">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="content has-text-justified"></div>
+          <!-- <div class="hr"></div> -->
+        </div>
+        <div class="container">
+          <div id="results-carousel" class="results-carousel">
+            
+            <div class="item">
+              <div class="twentytwenty-container fspbt" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">FSPBT vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/fspbt/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Beauty_Close_Up.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container fspbt" data-orientation="horizontal" ratio="0.556">
+                <div class="desc">FSPBT vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/fspbt/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Blue_Sky_Golden_Wheat.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container fspbt" data-orientation="horizontal" ratio="1.152">
+                <div class="desc">FSPBT vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/fspbt/Caigou4.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Caigou4.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="twentytwenty-container fspbt" data-orientation="horizontal" ratio="1.778">
+                <div class="desc">FSPBT vs MovingColor</div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/fspbt/Flower_Beauty.mp4" type="video/mp4">
+                  </video> 
+                </div>
+                <div class="video">
+                  <video muted autoplay="autoplay" loop="loop" width="100%">
+                    <source src="https://anonymous-authors.oss-ap-southeast-1.aliyuncs.com/videos_reduced_MovingColor/Result/output/Flower_Beauty.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+
+<section class="section" id="Reference">
+  <div class="container is-max-desktop content">
+    <h2 class="title">Reference</h2>
+    <ul>
+      <li>Wenqi Ouyang, Yi Dong, Xiaoyang Kang, Peiran Ren, Xin Xu, & Xuansong Xie (2023). RSFNet: A white-Box image retouching approach using region-specific color filters. https://arxiv.org/abs/2303.08682.</li>
+      <li>Wang, M., Ding, H., Liew, J., Liu, J., Zhao, Y., & Wei, Y. (2023). SegRefiner: Towards Model-Agnostic Segmentation Refinement with Discrete Diffusion Process. In NeurIPS.</li>
+      <li>Ke, L., Ding, H., Danelljan, M., Tai, Y.W., Tang, C.K., & Yu, F. (2022). Video Mask Transfiner for High-Quality Video Instance Segmentation. In European Conference on Computer Vision (ECCV).</li>
+      <li>Ke, L., Danelljan, M., Li, X., Tai, Y.W., Tang, C.K., & Yu, F. (2022). Mask Transfiner for High-Quality Instance Segmentation. In CVPR.</li>
+      <li>Hahne, C., & Aggoun, A. (2021). PlenoptiCam v1.0: A Light-Field Imaging Framework. IEEE Transactions on Image Processing, 30, 6757-6771.</li>
+      <li>Zhanghan Ke, Chunyi Sun, Lei Zhu, Ke Xu, & Rynson W.H. Lau (2022). Harmonizer: Learning to Perform White-Box Image and Video Harmonization. In European Conference on Computer Vision (ECCV).</li>
+      <li>Jingtang Liang, Xiaodong Cun, Chi-Man Pun, & Jue Wang. (2021). Spatial-Separated Curve Rendering Network for Efficient and High-Resolution Image Harmonization.</li>
+      <li>Guerreiro, J., Nakazawa, M., & Stenger, B. (2023). PCT-Net: Full Resolution Image Harmonization Using Pixel-Wise Color Transformations. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) (pp. 5917-5926).</li>
+      <li>Mingrui Zhu, Xiao He, Nannan Wang, Xiaoyu Wang, & Xinbo Gao. (2023). All-to-key Attention for Arbitrary Style Transfer.</li>
+      <li>Lei, C., Ren, X., Zhang, Z., & Chen, Q. (2023). Blind Video Deflickering by Neural Filtering with a Flawed Atlas. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR).</li>
+      <li>Texler, O., Futschik, D., Kučera, M., Jamriška, O., Sochorová, Š., Chai, M., ... & Sýkora, D. (2020). Interactive video stylization using few-shot patch-based training. ACM Transactions on Graphics (TOG), 39(4), 73-1.</li>
+    </ul>
+      <!-- <pre><code>
+    @inproceedings{SegRefiner,
+      title={{SegRefiner}: Towards Model-Agnostic Segmentation Refinement with Discrete Diffusion Process},
+      author={Wang, Mengyu and Ding, Henghui and Liew, Jun Hao and Liu, Jiajun and Zhao, Yao and Wei, Yunchao},
+      booktitle={NeurIPS},
+      year={2023}
+    }
+
+    @inproceedings{vmt,
+      title = {Video Mask Transfiner for High-Quality Video Instance Segmentation},
+      author = {Ke, Lei and Ding, Henghui and Danelljan, Martin and Tai, Yu-Wing and Tang, Chi-Keung and Yu, Fisher},
+      booktitle = {European Conference on Computer Vision (ECCV)},
+      year = {2022}
+    }
+
+    @inproceedings{transfiner,
+        title={Mask Transfiner for High-Quality Instance Segmentation},
+        author={Ke, Lei and Danelljan, Martin and Li, Xia and Tai, Yu-Wing and Tang, Chi-Keung and Yu, Fisher},
+        booktitle = {CVPR},
+        year = {2022}
+    }
+
+    @article{oywq2023rsfnet,
+      title={RSFNet: A white-Box image retouching approach using region-specific color filters},
+      author={Wenqi Ouyang and Yi Dong and Xiaoyang Kang and Peiran Ren and Xin Xu and Xuansong Xie},
+      journal={https://arxiv.org/abs/2303.08682},
+      year={2023}
+    }
+    </code></pre> -->
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <div class="columns is-centered"><p>
+            This website template is borrowed from <a href="https://github.com/nerfies/nerfies.github.io" target="_blank">here</a> and its <a href="https://github.com/nerfies/nerfies.github.io" target="_blank">adaptation</a>.  Thanks to the authors for sharing their work.
+          </p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  <!-- custom js file  -->
+  <!-- <script defer src="./assets/js/fontawesome.all.min.js"></script> -->
+  <script src="./assets/js/bulma-carousel.min.js"></script>
+  <script src="./assets/js/bulma-slider.min.js"></script>
+  <script src="./assets/js/index.js"></script>
+  <script src="./assets/js/jquery.event.move.js"></script>
+  <script src="./assets/js/jquery.twentytwenty.js"></script>
+  <script>
+  $(function(){
+    // $(".twentytwenty-container").twentytwenty();
+    $(".twentytwenty-container.direct-composition").twentytwenty({
+      before_label: 'Direct Composition', // Set a custom before label
+      after_label: 'MovingColor' // Set a custom after label
+    });
+    $(".twentytwenty-container.output").twentytwenty({
+      before_label: 'Original', // Set a custom before label
+      after_label: 'MovingColor' // Set a custom after label
+    });
+    $(".twentytwenty-container.edge").twentytwenty({
+      before_label: 'Original', // Set a custom before label
+      after_label: 'Edge' // Set a custom after label
+    });
+    $(".twentytwenty-container.mask").twentytwenty({
+      before_label: 'Original', // Set a custom before label
+      after_label: 'Mask' // Set a custom after label
+    });
+    $(".twentytwenty-container.segrefiner").twentytwenty({
+      before_label: 'DC (SegRefiner)', // Set a custom before label
+      after_label: 'MovingColor' // Set a custom after label
+    });
+    $(".twentytwenty-container.vmt").twentytwenty({
+      before_label: 'DC (VMT)', // Set a custom before label
+      after_label: 'MovingColor' // Set a custom after label
+    });
+    $(".twentytwenty-container.rsfnet").twentytwenty({
+      before_label: 'RSFNet', // Set a custom before label
+      after_label: 'MovingColor' // Set a custom after label
+    });
+    $(".twentytwenty-container.harmonizer").twentytwenty({
+      before_label: 'Harmonizer', // Set a custom before label
+      after_label: 'MovingColor' // Set a custom after label
+    });
+    $(".twentytwenty-container.cm").twentytwenty({
+      before_label: 'CM', // Set a custom before label
+      after_label: 'MovingColor' // Set a custom after label
+    });
+    $(".twentytwenty-container.pctnet").twentytwenty({
+      before_label: 'PCTNet', // Set a custom before label
+      after_label: 'MovingColor' // Set a custom after label
+    });
+    $(".twentytwenty-container.styleA2k").twentytwenty({
+      before_label: 'StyA2K', // Set a custom before label
+      after_label: 'MovingColor' // Set a custom after label
+    });
+    $(".twentytwenty-container.S2CRNet").twentytwenty({
+      before_label: 'S2CRNet', // Set a custom before label
+      after_label: 'MovingColor' // Set a custom after label
+    });
+    $(".twentytwenty-container.deflicker").twentytwenty({
+      before_label: 'Deflicker', // Set a custom before label
+      after_label: 'MovingColor' // Set a custom after label
+    });
+    $(".twentytwenty-container.styleA2k_deflicker").twentytwenty({
+      before_label: 'StyA2K+Deflicker', // Set a custom before label
+      after_label: 'MovingColor' // Set a custom after label
+    });
+    $(".twentytwenty-container.fspbt").twentytwenty({
+      before_label: 'FSPBT', // Set a custom before label
+      after_label: 'MovingColor' // Set a custom after label
+    });
+    // $(".twentytwenty-container", "#results-carousel").twentytwenty({default_offset_pct: 0.5, ratio: 0.5});
+  });
+  </script>
+  <script>
+    // Get the button
+    let mybutton = document.getElementById("sttBtn");
+    
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {scrollFunction()};
+    
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    }
+    
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+    </script>
+    <script>
+      $('#highlightBtn0').click(function(){
+        if ($('.hv01').is(":hidden")) {
+          $('.hv01').show();
+          $('.hv00').hide();
+        }
+        else {
+          $('.hv00').show();
+          $('.hv01').hide();
+        }
+      })
+      $('#highlightBtn1').click(function(){
+        if ($('.hv11').is(":hidden")) {
+          $('.hv11').show();
+          $('.hv10').hide();
+        }
+        else {
+          $('.hv10').show();
+          $('.hv11').hide();
+        }
+      })
+      $('#highlightBtn2').click(function(){
+        if ($('.hv21').is(":hidden")) {
+          $('.hv21').show();
+          $('.hv20').hide();
+        }
+        else {
+          $('.hv20').show();
+          $('.hv21').hide();
+        }
+      })
+      $('#highlightBtn3').click(function(){
+        if ($('.hv31').is(":hidden")) {
+          $('.hv31').show();
+          $('.hv30').hide();
+        }
+        else {
+          $('.hv30').show();
+          $('.hv31').hide();
+        }
+      })
+      $('#highlightBtn4').click(function(){
+        if ($('.hv41').is(":hidden")) {
+          $('.hv41').show();
+          $('.hv40').hide();
+        }
+        else {
+          $('.hv40').show();
+          $('.hv41').hide();
+        }
+      })
+    </script>
+  <!-- <script>
+    $(function () {
+    var includes = $('[data-include]')
+    $.each(includes, function () {
+      var file = $(this).data('include') + '.html'
+      $(this).load(file)
+    })
+    })
+  </script> -->
+   
+</body>
+</html>
